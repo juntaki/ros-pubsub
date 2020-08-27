@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/aler9/goroslib/msgs/geometry_msgs"
 	"gobot.io/x/gobot/drivers/i2c"
 	"gobot.io/x/gobot/platforms/raspi"
@@ -11,8 +10,8 @@ import (
 	"github.com/aler9/goroslib"
 )
 
-var wheelBase = 11.8
-var tred = 13.3
+const wheelBase = 11.8
+const tred = 13.3
 
 func main() {
 	a := raspi.NewAdaptor()
@@ -37,15 +36,13 @@ func main() {
 		vx := msg.Linear.X
 		vy := msg.Linear.Y
 		om := msg.Angular.Z
-		a := (wheelBase/2 + tred/2) / 25
+		a := wheelBase/2 + tred/2
 		velof := make([]float64, 4)
 
 		velof[0] = vx - vy - a*om
 		velof[1] = vx + vy - a*om
 		velof[2] = vx - vy + a*om
 		velof[3] = vx + vy + a*om
-
-		fmt.Println(velof)
 
 		for i, vf := range velof {
 			v := int32(math.Abs(vf) * 50)
@@ -70,7 +67,7 @@ func main() {
 	}
 
 	n, err := goroslib.NewNode(goroslib.NodeConf{
-		Name:       "/robo",
+		Name:       "/robo_wheel",
 		MasterHost: "127.0.0.1",
 	})
 	if err != nil {

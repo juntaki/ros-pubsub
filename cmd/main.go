@@ -21,7 +21,7 @@ func main() {
 	}
 
 	n, err := goroslib.NewNode(goroslib.NodeConf{
-		Name:       "/cmd",
+		Name:       "/robo_cmd",
 		MasterHost: "127.0.0.1",
 	})
 	if err != nil {
@@ -31,7 +31,7 @@ func main() {
 
 	pub, err := goroslib.NewPublisher(goroslib.PublisherConf{
 		Node:  n,
-		Topic: "/turtle1/cmd_vel",
+		Topic: "/robo/cmd_vel",
 		Msg:   &geometry_msgs.Twist{},
 	})
 	if err != nil {
